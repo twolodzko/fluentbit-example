@@ -1,0 +1,25 @@
+version: "3.5"
+
+networks:
+  fluentd-test:
+    name: "fluentd-test"
+
+services:
+  fluentbit:
+    build: .
+    ports:
+      - "24224:24224"
+      - "24224:24224/udp"
+    networks:
+      - "fluentd-test"
+  ubuntu:
+    image: ubuntu
+    command: [/bin/sh, -c, 'while true; do echo $(date); sleep 1; done']
+    depends_on:
+      - fluentbit
+    logging:
+      driver: fluentd
+      options:
+        tag: docker-ubuntu
+    networks:
+      - "fluentd-test"
