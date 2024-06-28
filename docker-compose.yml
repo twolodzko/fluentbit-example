@@ -12,7 +12,7 @@ services:
       - "24224:24224/udp"
     networks:
       - "fluentd-test"
-  ubuntu:
+  worker:
     image: ubuntu
     command: [/bin/sh, -c, 'while true; do echo $(date); sleep 1; done']
     depends_on:
